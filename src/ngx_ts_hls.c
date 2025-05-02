@@ -210,9 +210,9 @@ ngx_ts_hls_pat_handler(ngx_ts_hls_t *hls)
             return NGX_ERROR;
         }
 
-        /* [<prog>.]<seg>.png */
+        /* [<prog>.]<seg>.jpg */
 
-        len = hls->path.len + 1 + NGX_INT_T_LEN + sizeof(".png");
+        len = hls->path.len + 1 + NGX_INT_T_LEN + sizeof(".jpg");
 
         if (hls->nvars > 1) {
             len += NGX_INT_T_LEN + 1;
@@ -460,7 +460,7 @@ ngx_ts_hls_update_playlist(ngx_ts_hls_t *hls, ngx_ts_hls_variant_t *var)
             }
 
             len += sizeof("#EXTINF:.xxx,\n"
-                          ".png\n") - 1
+                          ".jpg\n") - 1
                    + 2 * NGX_INT_T_LEN;
 
             if (hls->nvars > 1) {
@@ -495,11 +495,11 @@ ngx_ts_hls_update_playlist(ngx_ts_hls_t *hls, ngx_ts_hls_variant_t *var)
             p = ngx_sprintf(p, "#EXTINF:%.3f,\n", seg->duration / 90000.);
 
             if (hls->nvars > 1) {
-                p = ngx_sprintf(p, "%ui.%ui.png\n",
+                p = ngx_sprintf(p, "%ui.%ui.jpg\n",
                                 (ngx_uint_t) var->prog->number, seg->id);
 
             } else {
-                p = ngx_sprintf(p, "%ui.png\n", seg->id);
+                p = ngx_sprintf(p, "%ui.jpg\n", seg->id);
             }
         }
     }
@@ -649,7 +649,7 @@ ngx_ts_hls_open_segment(ngx_ts_hls_t *hls, ngx_ts_hls_variant_t *var)
 
     path = &var->path;
 
-    n = ngx_sprintf(path->data + path->len, "%ui.png%Z", var->seg) - path->data
+    n = ngx_sprintf(path->data + path->len, "%ui.jpg%Z", var->seg) - path->data
         - 1;
 
     var->file.name.data = path->data;
@@ -758,7 +758,7 @@ ngx_ts_hls_manage_file(ngx_tree_ctx_t *ctx, ngx_str_t *path)
     }
 
     if (path->len >= 3
-        && ngx_memcmp(path->data + path->len - 3, ".png", 3) == 0)
+        && ngx_memcmp(path->data + path->len - 3, ".jpg", 3) == 0)
     {
         max_age = hls->max_seg * hls->nsegs / 500;
     }
